@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="et">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>EUROPAGAR — Admin</title>
+
+  <link rel="icon" type="image/png" sizes="32x32" href="../images/dark-favicon.png?v=2">
+  <link rel="canonical" href="https://eurpgr.ee/admin/index.html">
+  <link rel="sitemap" type="application/xml" href="../sitemap.xml">
+
+  <link rel="stylesheet" href="../styles/korvikesed.css" />
+  <link rel="stylesheet" href="admin.css" />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    .cart-btn{
+      width:40px;
+      height:40px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:999px;
+      border:3px solid #122E4E;
+      background:#122E4E;
+      color:#fff;
+      position:relative;
+      transition:.2s ease;
+    }
+
+    .cart-btn:hover{
+      transform:translateY(-1px);
+    }
+
+    .cart-badge{
+      position:absolute;
+      top:-6px;
+      right:-6px;
+      min-width:20px;
+      height:20px;
+      padding:0 6px;
+      border-radius:999px;
+      background:var(--accent);
+      color:#fff;
+      font-weight:1000;
+      font-size:12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border:2px solid #fff;
+    }
+
+    .side,
+    .main{
+      min-width:0;
+    }
+
+    .head-actions{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .shop-toolbar{
+      display:grid;
+      grid-template-columns:minmax(0, 1fr) repeat(4, auto);
+      gap:12px;
+      align-items:end;
+      margin-bottom:12px;
+    }
+
+    .shop-toolbar .field{
+      min-width:0;
+    }
+
+    .shop-toolbar .field.full{
+      grid-column:1 / -1;
+    }
+
+    .shop-toolbar .shop-select{
+      grid-column:1 / -1;
+    }
+
+    .shop-toolbar .btn{
+      width:auto;
+      justify-content:center;
+      white-space:nowrap;
+    }
+
+    .shop-note{
+      margin-bottom:10px;
+    }
+
+    .panelbox .hint{
+      padding:0 14px 10px;
+      display:block;
+    }
+
+    .footer-right{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+
+    @media (max-width: 1024px){
+      .shop-toolbar{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .shop-toolbar .field.full,
+      .shop-toolbar .shop-select{
+        grid-column:1 / -1;
+      }
+    }
+
+    @media (max-width: 768px){
+      .shop-toolbar{
+        grid-template-columns:1fr;
+      }
+
+      .head-actions{
+        width:100%;
+      }
+
+      .head-actions .btn{
+        width:100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html">
+        <img src="../images/logo.png" alt="EUROPAGAR">
+        <div>
+          <div class="brand-name">EUROPAGAR</div>
+          <div class="brand-sub">Elul on maitset</div>
+        </div>
+      </a>
+
+      <nav class="nav">
+        <a href="../index.html"><i class="fa-solid fa-house"></i>Avaleht</a>
+        <a href="../index.html#company"><i class="fa-solid fa-circle-info"></i>Ettevõttest</a>
+        <a href="../index.html#shop"><i class="fa fa-shopping-cart"></i>E-Pood</a>
+        <a href="../index.html#transport"><i class="fa-solid fa-truck"></i>Transport</a>
+        <a href="../index.html#order"><i class="fa fa-clipboard"></i>Tellimus</a>
+        <a href="../index.html#contact"><i class="fa-solid fa-envelope"></i>Kontakt</a>
+      </nav>
+
+      <div class="top-actions">
+        <a class="icon-btn"
+           href="https://www.facebook.com/people/Europagar/100063358998388/?ref=embed_page"
+           target="_blank"
+           rel="noopener"
+           aria-label="Facebook">
+          <i class="fa-brands fa-facebook-f"></i>
+        </a>
+
+        <a class="icon-btn profile-btn" id="accountBtn" href="../account.html" aria-label="Konto">
+          <i class="fa-solid fa-user"></i>
+        </a>
+
+        <a class="cart-btn" href="../cart.html" aria-label="Ostukorv">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </a>
+
+        <a class="lang lang-et" href="index.html" aria-label="Eesti"></a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="admin" id="app">
+      <aside class="side">
+        <div class="panel">
+          <div class="panel-title">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>Admin</span>
+          </div>
+
+          <div class="who" id="whoBox" style="display:none;">
+            <div class="who-name" id="whoName"></div>
+            <div class="who-email" id="whoEmail"></div>
+          </div>
+
+          <button class="navbtn is-active" data-view="dashboard"><i class="fa-solid fa-gauge"></i> Ülevaade</button>
+          <button class="navbtn" data-view="orders"><i class="fa-solid fa-clipboard-list"></i> Tellimused</button>
+          <button class="navbtn" data-view="users"><i class="fa-solid fa-users"></i> Kasutajad</button>
+          <button class="navbtn" data-view="uploads"><i class="fa-solid fa-folder-open"></i> Failid</button>
+          <button class="navbtn" data-view="shop"><i class="fa-solid fa-cart-shopping"></i> E-Pood</button>
+          <button class="navbtn" data-view="site"><i class="fa-solid fa-panorama"></i> Avaleht / CMS</button>
+          <button class="navbtn" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logi välja</button>
+
+          <div class="panel-foot">
+            <div class="hint">Admin ligipääs on piiratud e-postide nimekirjaga serveris.</div>
+          </div>
+        </div>
+      </aside>
+
+      <section class="main">
+        <div class="card">
+          <div class="head">
+            <h1 class="title" id="pageTitle"><i class="fa-solid fa-gauge"></i> Ülevaade</h1>
+
+            <div class="head-actions">
+              <button class="btn" id="refreshBtn">
+                <i class="fa-solid fa-rotate"></i> Värskenda
+              </button>
+            </div>
+          </div>
+
+          <div class="alert" id="globalError" style="display:none;"></div>
+
+          <!-- DASHBOARD -->
+          <div class="view" id="view-dashboard">
+            <div class="stats">
+              <div class="stat">
+                <div class="stat-k">Uued tellimused</div>
+                <div class="stat-v" id="statNew">—</div>
+              </div>
+              <div class="stat">
+                <div class="stat-k">Täna kokku</div>
+                <div class="stat-v" id="statToday">—</div>
+              </div>
+              <div class="stat">
+                <div class="stat-k">Kasutajad</div>
+                <div class="stat-v" id="statUsers">—</div>
+              </div>
+              <div class="stat">
+                <div class="stat-k">Failid (uploads)</div>
+                <div class="stat-v" id="statFiles">—</div>
+              </div>
+            </div>
+
+            <div class="split">
+              <div class="panelbox">
+                <div class="panelbox-h">Viimased tellimused</div>
+                <div class="table-wrap">
+                  <table class="table" id="dashOrders">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Klient</th>
+                        <th>Summa</th>
+                        <th>Staatus</th>
+                        <th>Aeg</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="panelbox">
+                <div class="panelbox-h">Kiirtoimingud</div>
+                <div class="actions-grid">
+                  <button class="btn btn-ghost" data-jump="orders">
+                    <i class="fa-solid fa-clipboard-list"></i> Ava tellimused
+                  </button>
+                  <button class="btn btn-ghost" data-jump="users">
+                    <i class="fa-solid fa-users"></i> Ava kasutajad
+                  </button>
+                  <a class="btn btn-ghost" href="../checkout.html" target="_blank" rel="noopener">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Checkout
+                  </a>
+                  <a class="btn btn-ghost" href="../account.html" target="_blank" rel="noopener">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Konto
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ORDERS -->
+          <div class="view" id="view-orders" style="display:none;">
+            <div class="toolbar">
+              <div class="field">
+                <label>Otsing</label>
+                <input class="input" id="ordersQ" placeholder="ID, nimi, e-post, tel..." />
+              </div>
+
+              <div class="field">
+                <label>Staatus</label>
+                <select class="input" id="ordersStatus">
+                  <option value="">Kõik</option>
+                  <option value="new">new</option>
+                  <option value="processing">processing</option>
+                  <option value="done">done</option>
+                  <option value="cancelled">cancelled</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label>&nbsp;</label>
+                <button class="btn" id="ordersSearch">
+                  <i class="fa-solid fa-magnifying-glass"></i> Otsi
+                </button>
+              </div>
+            </div>
+
+            <div class="table-wrap">
+              <table class="table" id="ordersTable">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Klient</th>
+                    <th>Kontakt</th>
+                    <th>Tarne</th>
+                    <th>Makse</th>
+                    <th>Summa</th>
+                    <th>Staatus</th>
+                    <th>Aeg</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+
+            <div class="pager">
+              <button class="btn btn-ghost" id="ordersPrev"><i class="fa-solid fa-chevron-left"></i></button>
+              <div class="hint" id="ordersPage">—</div>
+              <button class="btn btn-ghost" id="ordersNext"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+          </div>
+
+          <!-- USERS -->
+          <div class="view" id="view-users" style="display:none;">
+            <div class="toolbar">
+              <div class="field">
+                <label>Otsing</label>
+                <input class="input" id="usersQ" placeholder="e-post, nimi, tel..." />
+              </div>
+
+              <div class="field">
+                <label>&nbsp;</label>
+                <button class="btn" id="usersSearch">
+                  <i class="fa-solid fa-magnifying-glass"></i> Otsi
+                </button>
+              </div>
+            </div>
+
+            <div class="table-wrap">
+              <table class="table" id="usersTable">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>E-post</th>
+                    <th>Nimi</th>
+                    <th>Telefon</th>
+                    <th>Verified</th>
+                    <th>Liitus</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+
+            <div class="pager">
+              <button class="btn btn-ghost" id="usersPrev"><i class="fa-solid fa-chevron-left"></i></button>
+              <div class="hint" id="usersPage">—</div>
+              <button class="btn btn-ghost" id="usersNext"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+          </div>
+
+          <!-- UPLOADS -->
+          <div class="view" id="view-uploads" style="display:none;">
+            <div class="toolbar">
+              <div class="field full">
+                <label>Uploads kataloog</label>
+                <div class="hint">Näitab <code>/uploads</code> faile. Võimaldab kustutada faile turvaliselt piiratud kataloogiga.</div>
+              </div>
+            </div>
+
+            <div class="table-wrap">
+              <table class="table" id="filesTable">
+                <thead>
+                  <tr>
+                    <th>Fail</th>
+                    <th>Suurus</th>
+                    <th>Muudetud</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- SHOP -->
+          <div class="view" id="view-shop" style="display:none;">
+            <div class="shop-toolbar">
+              <div class="field full shop-note">
+                <label>Vali kategooria enne, kui lisad uue toote.</label>
+                <div class="hint">Kategooriaid saab hiirega lohistada ja järjestada.</div>
+              </div>
+
+              <div class="field full shop-select">
+                <label>Kategooriad</label>
+                <select class="input" id="shopCategorySelect">
+                  <option value="">—</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label>&nbsp;</label>
+                <button class="btn" id="shopNewCategory">
+                  <i class="fa-solid fa-plus"></i> Uus kategooria
+                </button>
+              </div>
+
+              <div class="field">
+                <label>&nbsp;</label>
+                <button class="btn" id="shopNewProduct">
+                  <i class="fa-solid fa-plus"></i> Uus toode
+                </button>
+              </div>
+
+              <div class="field">
+                <label>&nbsp;</label>
+                <button class="btn btn-ghost" id="shopInstall">
+                  <i class="fa-solid fa-screwdriver-wrench"></i> Install
+                </button>
+              </div>
+
+              <div class="field">
+                <label>&nbsp;</label>
+                <button class="btn btn-ghost" id="shopImport">
+                  <i class="fa-solid fa-file-import"></i> Bulk import
+                </button>
+              </div>
+            </div>
+
+            <div class="split">
+              <div class="panelbox">
+                <div class="panelbox-h">Kategooriad</div>
+                <div class="hint">Lohista ridu, et muuta järjekorda.</div>
+
+                <div class="table-wrap">
+                  <table class="table" id="shopCategoriesTable">
+                    <thead>
+                      <tr>
+                        <th style="width:44px;"></th>
+                        <th>ID</th>
+                        <th>Nimi</th>
+                        <th>Slug</th>
+                        <th>Sort</th>
+                        <th>Aktiivne</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="panelbox">
+                <div class="panelbox-h">Tooted</div>
+
+                <div class="table-wrap">
+                  <table class="table" id="shopProductsTable">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Nimetus</th>
+                        <th>Hind</th>
+                        <th>SKU</th>
+                        <th>Sort</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="view" id="view-site" style="display:none;">
+            <div class="panelbox" style="margin-bottom:16px;">
+              <div class="panelbox-h">CMS / kogu saidi plokid ja slaidid</div>
+              <span class="hint">Halda plokke lehtede kaupa, lohista slaide ümber ja vali meedia media managerist. Toetatud: GIF, MP4, JPEG, PNG, WEBP.</span>
+              <div style="padding:0 14px 14px;display:flex;gap:10px;flex-wrap:wrap;align-items:end;">
+                <div class="field" style="min-width:220px;">
+                  <label>Leht</label>
+                  <select class="input" id="sitePageFilter">
+                    <option value="home">home</option>
+                    <option value="checkout">checkout</option>
+                    <option value="cart">cart</option>
+                    <option value="privacy">privacy</option>
+                    <option value="kuidas_tellida">kuidas_tellida</option>
+                    <option value="notfound">notfound</option>
+                    <option value="reset_password">reset_password</option>
+                    <option value="shop_category">shop_category</option>
+                  </select>
+                </div>
+                <button class="btn" id="siteNewBlock"><i class="fa-solid fa-plus"></i> Uus plokk</button>
+                <button class="btn btn-ghost" id="siteNewSlide"><i class="fa-solid fa-plus"></i> Uus slaid</button>
+              </div>
+            </div>
+            <div class="split">
+              <div class="panelbox">
+                <div class="panelbox-h">Slaidid</div>
+                <div class="table-wrap"><table class="table" id="siteSlidesTable"><thead><tr><th></th><th>ID</th><th>Key</th><th>Meedia</th><th>Sort</th><th>Aktiivne</th><th></th></tr></thead><tbody></tbody></table></div>
+              </div>
+              <div class="panelbox">
+                <div class="panelbox-h">Plokid</div>
+                <div class="table-wrap"><table class="table" id="siteBlocksTable"><thead><tr><th>ID</th><th>Key</th><th>Pealkiri</th><th>Sort</th><th>Aktiivne</th><th></th></tr></thead><tbody></tbody></table></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>© 2026 <strong>EUROPAGAR</strong></div>
+
+      <div class="footer-right">
+        <a class="icon-btn-1"
+           href="https://www.facebook.com/people/Europagar/100063358998388/?ref=embed_page"
+           target="_blank"
+           rel="noopener noreferrer"
+           aria-label="Facebook">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a class="post" href="mailto:info@europagar.ee">info@europagar.ee</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="modal" id="modal" aria-hidden="true" style="display:none;">
+    <div class="modal-backdrop" data-close="1"></div>
+
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-head">
+        <div class="modal-title" id="modalTitle">Tellimus</div>
+        <button class="icon-x" data-close="1" aria-label="Close">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-foot" id="modalFoot"></div>
+    </div>
+  </div>
+
+  <script src="../scripts/cart.js" defer></script>
+  <script src="../scripts/site-ui.js" defer></script>
+  <script src="admin.js" defer></script>
+</body>
+</html>
