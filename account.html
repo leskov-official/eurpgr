@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="et">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EUROPAGAR — Minu konto</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/dark-favicon.png?v=2">
+      <link rel="canonical" href="https://eurpgr.ee/account.html">
+      <link rel="sitemap" type="application/xml" href="sitemap.xml">
+  <link rel="stylesheet" href="styles/account.css">
+  <link rel="stylesheet" href="styles/cookie.css">
+      <link rel="stylesheet" href="styles/korvikesed.css">
+          
+          <style>
+              .cart-btn{
+                  width:40px;
+                  height:40px;
+                  display:inline-flex;
+                  align-items:center;
+                  justify-content:center;
+                  border-radius:999px;
+                  border:3px solid #122E4E;
+                  background:#122E4E;
+                  color:#fff;
+                  position:relative;
+                  transition:.2s ease;
+              }
+              
+              .cart-btn:hover{ transform:translateY(-1px);
+              }
+              
+              .cart-badge{
+                  position:absolute;
+                  top:-6px;
+                  right:-6px;
+                  min-width:20px;
+                  height:20px;
+                  padding:0 6px;
+                  border-radius:999px;
+                  background:var(--accent);
+                  color:#fff;
+                  font-weight:1000;
+                  font-size:12px;
+                  display:flex;
+                  align-items:center;
+                  justify-content:center;
+                  border:2px solid #fff;
+              }
+          </style>
+          
+</head>
+
+<body>
+
+  <div id="cookie-consent-bar" aria-hidden="true">
+    <div class="cookie-text">See veebisait kasutab küpsiseid parema kasutuskogemuse pakkumiseks.</div>
+    <div class="cookie-actions">
+      <a href="privacy.html" class="cookie-btn cookie-btn-decline">Lisainfo</a>
+      <button class="cookie-btn cookie-btn-accept">Nõustun</button>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="index.html">
+        <img src="images/logo.png" alt="EUROPAGAR">
+        <div>
+          <div class="brand-name">EUROPAGAR</div>
+          <div class="brand-sub">Elul on maitset</div>
+        </div>
+      </a>
+
+      <nav class="nav">
+        <a href="index.html"><i class="fa-solid fa-house"></i>Avaleht</a>
+        <a href="index.html#company"><i class="fa-solid fa-circle-info"></i>Ettevõttest</a>
+        <a href="index.html#shop"><i class="fa fa-shopping-cart"></i>E-Pood</a>
+        <a href="index.html#transport"><i class="fa-solid fa-truck"></i>Transport</a>
+        <a href="index.html#order"><i class="fa fa-clipboard"></i>Tellimus</a>
+        <a href="index.html#contact"><i class="fa-solid fa-envelope"></i>Kontakt</a>
+      </nav>
+
+      <div class="top-actions">
+        <a class="icon-btn" href="https://www.facebook.com/people/Europagar/100063358998388/?ref=embed_page" target="_blank" rel="noopener" aria-label="Facebook">
+          <i class="fa-brands fa-facebook-f"></i>
+        </a>
+        
+        <a class="icon-btn profile-btn" id="profileBtn" href="account.html" aria-label="Konto">
+          <i class="fa-solid fa-user"></i>
+        </a>
+
+        <a class="cart-btn" href="cart.html" aria-label="Ostukorv">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </a>
+
+        <a class="lang lang-et" href="account.html" aria-label="Eesti"></a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="account">
+      <aside class="side">
+        <div class="side-card">
+          <div class="side-title"></div>
+          <button class="side-link" id="adminBtn" style="display:none;"
+                  onclick="window.location.href='admin/index.html'">
+            <i class="fa-solid fa-shield-halved"></i>
+            Admin
+          </button>
+          <button class="side-link is-active" data-tab="profile"><i class="fa-solid fa-user"></i> Minu konto</button>
+          <button class="side-link" data-tab="orders"><i class="fa fa-clipboard"></i> Minu tellimused</button>
+          <button class="side-link" data-tab="password"><i class="fa-solid fa-key"></i> Muuda parooli</button>
+          <button class="side-link" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logi välja</button>
+        </div>
+      </aside>
+
+      <section class="main">
+        <div class="card">
+          <div class="head">
+            <h1 class="title"><i class="fa-solid fa-user"></i> Minu konto</h1>
+            <div class="hint" id="helloText"></div>
+          </div>
+
+          <div class="danger" id="globalError" style="display:none;"></div>
+
+          <div class="account-stats" id="accountStats">
+            <div class="stat-card"><div class="stat-k">E-post</div><div class="stat-v" id="statEmail">—</div></div>
+            <div class="stat-card"><div class="stat-k">Staatus</div><div class="stat-v" id="statVerified">—</div></div>
+            <div class="stat-card"><div class="stat-k">Tellimused</div><div class="stat-v" id="statOrders">0</div></div>
+            <div class="stat-card"><div class="stat-k">Viimane tellimus</div><div class="stat-v" id="statLastOrder">—</div></div>
+          </div>
+
+          <div class="tab" id="tab-profile">
+            <div class="profile-grid">
+
+              <div class="avatar-box">
+                  <div class="avatar" id="avatarWrap" data-verified="0" aria-label="Account verification">
+                    <img id="avatarImg" src="images/user-placeholder.png" alt="Avatar">
+                    <span class="verify-badge" id="verifyBadge" aria-hidden="true">
+                      <i class="fa-solid fa-check"></i>
+                    </span>
+                  </div>
+
+                <div class="avatar-actions">
+                  <label class="btn btn-ghost">
+                    <input type="file" id="avatarFile" accept="image/png,image/jpeg,image/webp" hidden>
+                    <i class="fa-solid fa-upload"></i> Laadi pilt
+                  </label>
+                  <div class="hint">JPG/PNG/WEBP, max 2MB</div>
+                </div>
+              </div>
+
+              <div class="form">
+                <div class="grid-form">
+                  <div class="field">
+                    <label>Eesnimi *</label>
+                    <input class="input" id="firstName" type="text" placeholder="Eesnimi">
+                  </div>
+                  <div class="field">
+                    <label>Perekonnanimi *</label>
+                    <input class="input" id="lastName" type="text" placeholder="Perekonnanimi">
+                  </div>
+                  <div class="field full">
+                    <label>E-post</label>
+                    <input class="input" id="email" type="email" disabled>
+                  </div>
+                  <div class="field full">
+                    <label>Telefon</label>
+                    <input class="input" id="phone" type="tel" placeholder="+372 ...">
+                  </div>
+                </div>
+
+                <div class="mini-actions">
+                  <button class="btn btn-primary" id="saveProfile">
+                    <i class="fa-solid fa-floppy-disk"></i> Salvesta
+                  </button>
+                  <div class="ok" id="profileOk" style="display:none;"><i class="fa-solid fa-circle-check"></i> Salvestatud</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="tab" id="tab-orders" style="display:none;">
+            <div class="orders-head">
+              <h2><i class="fa fa-clipboard" style="color:var(--accent)"></i> Minu tellimused</h2>
+              <div class="hint">Näidatakse kuni 50 viimast tellimust</div>
+            </div>
+
+            <div class="orders" id="ordersList"></div>
+          </div>
+
+          <div class="tab" id="tab-password" style="display:none;">
+            <h2><i class="fa-solid fa-key" style="color:var(--accent)"></i> Muuda parooli</h2>
+
+            <div class="grid-form" style="margin-top:10px;">
+              <div class="field full">
+                <label>Praegune parool *</label>
+                <input class="input" id="curPass" type="password" autocomplete="current-password">
+              </div>
+              <div class="field">
+                <label>Uus parool *</label>
+                <input class="input" id="newPass1" type="password" autocomplete="new-password" placeholder="Min 8 tähemärki">
+              </div>
+              <div class="field">
+                <label>Korda uus parool *</label>
+                <input class="input" id="newPass2" type="password" autocomplete="new-password">
+              </div>
+            </div>
+
+            <div class="mini-actions">
+              <button class="btn btn-primary" id="changePassword">
+                <i class="fa-solid fa-rotate"></i> Uuenda parool
+              </button>
+              <div class="ok" id="passOk" style="display:none;"><i class="fa-solid fa-circle-check"></i> Parool muudetud</div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap" style="padding-top:0;">
+      <div class="footer-inner">
+        <div>© 2026 EUROPAGAR</div>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <a class="icon-btn-1" href="https://www.facebook.com/people/Europagar/100063358998388/?ref=embed_page" target="_blank" rel="noopener" aria-label="Facebook">
+            <i class="fa-brands fa-facebook-f"></i>
+          </a>
+          <a class="post" href="mailto:info@europagar.ee">info@europagar.ee</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script src="scripts/cookie.js" defer></script>
+  <script src="scripts/cart.js" defer></script>
+  <script src="scripts/site-ui.js" defer></script>
+  <script src="scripts/account.js" defer></script>
+
+</body>
+</html>

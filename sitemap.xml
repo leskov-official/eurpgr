@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://eurpgr.ee/</loc><priority>1.0</priority></url>
+  <url><loc>https://eurpgr.ee/index.html</loc></url>
+  <url><loc>https://eurpgr.ee/shop_category.html</loc></url>
+  <url><loc>https://eurpgr.ee/cart.html</loc></url>
+  <url><loc>https://eurpgr.ee/checkout.html</loc></url>
+  <url><loc>https://eurpgr.ee/account.html</loc></url>
+  <url><loc>https://eurpgr.ee/kuidas_tellida.html</loc></url>
+  <url><loc>https://eurpgr.ee/privacy.html</loc></url>
+  <url><loc>https://eurpgr.ee/reset-password.php</loc></url>
+  <url><loc>https://eurpgr.ee/404.html</loc></url>
+</urlset>

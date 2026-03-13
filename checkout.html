@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="et">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EUROPAGAR — Mine maksma</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/dark-favicon.png?v=2">
+  <link rel="canonical" href="https://eurpgr.ee/checkout.html">
+  <link rel="sitemap" type="application/xml" href="sitemap.xml">
+  <link rel="stylesheet" href="styles/checkout.css">
+  <link rel="stylesheet" href="styles/cookie.css">
+
+  <style>
+    .cart-btn{
+      width:36px;
+      height:36px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:999px;
+      border:3px solid #122E4E;
+      background:#122E4E;
+      color:#fff;
+      position:relative;
+      transition:.2s ease;
+    }
+
+    .cart-btn:hover{
+      transform:translateY(-1px);
+    }
+
+    .cart-badge{
+      position:absolute;
+      top:-6px;
+      right:-6px;
+      min-width:20px;
+      height:20px;
+      padding:0 6px;
+      border-radius:999px;
+      background:var(--accent);
+      color:#fff;
+      font-weight:1000;
+      font-size:12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border:2px solid #fff;
+    }
+
+    .pay-btn.is-active{
+      border-color:#c60b13 !important;
+      box-shadow:0 0 0 3px rgba(198,11,19,.14);
+      transform:translateY(-1px);
+      background:#fff7f7;
+    }
+
+    .pay-btn[disabled]{
+      opacity:.6;
+      cursor:not-allowed;
+    }
+
+    #placeOrder[disabled]{
+      opacity:.6;
+      cursor:not-allowed;
+      pointer-events:none;
+    }
+  </style>
+</head>
+
+<body data-page-key="checkout">
+
+  <div id="cookie-consent-bar" aria-hidden="true">
+    <div class="cookie-text">
+      See veebisait kasutab küpsiseid parema kasutuskogemuse pakkumiseks.
+    </div>
+
+    <div class="cookie-actions">
+      <a href="privacy.html" class="cookie-btn cookie-btn-decline">
+        Lisainfo
+      </a>
+      <button class="cookie-btn cookie-btn-accept">
+        Nõustun
+      </button>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="index.html">
+        <img src="images/logo.png" alt="EUROPAGAR">
+        <div>
+          <div class="brand-name">EUROPAGAR</div>
+          <div class="brand-sub">Elul on maitset</div>
+        </div>
+      </a>
+
+      <nav class="nav">
+        <a href="index.html"><i class="fa-solid fa-house"></i>Avaleht</a>
+        <a href="index.html#company"><i class="fa-solid fa-circle-info"></i>Ettevõttest</a>
+        <a href="index.html#shop"><i class="fa fa-shopping-cart"></i>E-Pood</a>
+        <a href="index.html#transport"><i class="fa-solid fa-truck"></i>Transport</a>
+        <a href="index.html#order"><i class="fa fa-clipboard"></i>Tellimus</a>
+        <a href="index.html#contact"><i class="fa-solid fa-envelope"></i>Kontakt</a>
+      </nav>
+
+      <div class="top-actions">
+        <a class="icon-btn"
+           href="https://www.facebook.com/people/Europagar/100063358998388/?ref=embed_page"
+           target="_blank"
+           rel="noopener"
+           aria-label="Facebook">
+          <i class="fa-brands fa-facebook-f"></i>
+        </a>
+
+        <a class="icon-btn profile-btn" id="profileBtn" href="account.html" aria-label="Konto">
+          <i class="fa-solid fa-user"></i>
+        </a>
+
+        <a class="cart-btn" href="cart.html" aria-label="Cart">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </a>
+
+        <a class="lang lang-et" href="checkout.html" aria-label="Eesti"></a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="checkout">
+
+      <div class="card">
+
+        <div class="section checkout-head" data-block-key="checkout-head">
+          <h1 class="title"><i class="fa-solid fa-lock"></i> <span data-field="title">Ostu vormistamine</span></h1>
+          <div class="crumbs" data-field="content_html" data-attr="html">
+            <a href="index.html">Avaleht</a>
+            <span>→</span>
+            <a href="cart.html">Ostukorv</a>
+            <span>→</span>
+            <strong>Mine maksma</strong>
+          </div>
+        </div>
+
+        <div class="section" id="loginNoticeSection" data-block-key="checkout-login-notice">
+          <div class="notice" id="loginNotice">
+            <i class="fa-solid fa-circle-info" style="margin-top:2px;color:#c60b13"></i>
+            <div data-field="content_html" data-attr="html">
+              Oled juba klient? <a href="#login" id="openLogin">sisselogimiseks kliki siia</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" id="loginSectionWrap" style="display:none;" data-block-key="checkout-login">
+          <div id="login"></div>
+          <h2><i class="fa-solid fa-right-to-bracket" style="color:#c60b13"></i> <span data-field="title">Logi sisse</span></h2>
+          <div data-field="content_html" data-attr="html"><p class="hint">
+            Kui oled meilt varem ostnud, siis sisesta oma andmed allolevatesse lahtritesse.
+            Kui oled uus klient, siis palun liigu edasi arvelduse sektsiooni.
+          </p></div>
+
+          <div class="grid-form">
+            <div class="field full">
+              <label>E-posti aadress: <span class="req">*</span></label>
+              <input class="input" id="loginEmail" type="email" autocomplete="email" placeholder="nimi@gmail.com">
+            </div>
+
+            <div class="field full">
+              <label>Parool: <span class="req">*</span></label>
+              <input class="input" id="loginPassword" type="password" autocomplete="current-password" placeholder="••••••••">
+            </div>
+          </div>
+
+          <div class="login-extras">
+            <label class="checkrow">
+              <input type="checkbox" id="rememberMe">
+              Jäta mind meelde
+            </label>
+
+            <a href="#forgot" class="linkish" id="openForgot">Kaotasid parooli?</a>
+          </div>
+
+          <div class="reset-box" id="resetBox" style="display:none;">
+            <div id="forgot"></div>
+            <div class="reset-head">
+              <div class="reset-title">
+                <i class="fa-solid fa-key"></i> Parooli taastamine
+              </div>
+              <button class="reset-close" type="button" id="closeForgot" aria-label="Close reset">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+
+            <div class="grid-form">
+              <div class="field full">
+                <label>E-posti aadress: <span class="req">*</span></label>
+                <input class="input" id="resetEmail" type="email" autocomplete="email" placeholder="nimi@gmail.com">
+              </div>
+            </div>
+
+            <div class="danger" id="resetError" style="margin-top:12px; display:none;">
+              Palun kontrollige välju.
+            </div>
+
+            <div class="reset-actions">
+              <button class="btn btn-primary" type="button" id="resetSubmit">
+                <i class="fa-solid fa-rotate"></i> Uuenda parool
+              </button>
+              <button class="btn" type="button" id="resetCancel">
+                <i class="fa-solid fa-xmark"></i> Tühista
+              </button>
+            </div>
+
+            <div class="reset-ok" id="resetOk" style="display:none;">
+              <i class="fa-solid fa-circle-check"></i>
+              Kui see oleks päris sait, saadaksime kinnituse e-kirjale (demo).
+            </div>
+          </div>
+
+          <div class="danger" id="loginError" style="display:none;margin-top:10px;"></div>
+
+          <div class="mini-actions">
+            <button class="btn btn-primary" type="button" id="loginBtn">
+              <i class="fa-solid fa-arrow-right-to-bracket"></i> Logi sisse
+            </button>
+            <button class="btn" type="button" id="closeLogin">
+              <i class="fa-solid fa-xmark"></i> Sulge
+            </button>
+          </div>
+        </div>
+
+        <div class="section" data-block-key="checkout-billing">
+          <h2><i class="fa-solid fa-file-invoice" style="color:#c60b13"></i> <span data-field="title">Arveldamine ja transport</span></h2>
+          <div data-field="content_html" data-attr="html"></div>
+
+          <div class="grid-form">
+            <div class="field">
+              <label>Eesnimi: <span class="req">*</span></label>
+              <input class="input" id="billFirst" type="text" autocomplete="given-name" placeholder="Eesnimi">
+            </div>
+
+            <div class="field">
+              <label>Perekonnanimi: <span class="req">*</span></label>
+              <input class="input" id="billLast" type="text" autocomplete="family-name" placeholder="Perekonnanimi">
+            </div>
+
+            <div class="field full">
+              <label>Telefon: <span class="req">*</span></label>
+              <input class="input" id="billPhone" type="tel" autocomplete="tel" placeholder="+372 ...">
+            </div>
+
+            <div class="field full">
+              <label>E-posti aadress: <span class="req">*</span></label>
+              <input class="input" id="billEmail" type="email" autocomplete="email" placeholder="nimi@gmail.com">
+            </div>
+
+            <div class="field full" id="createAccountRow">
+              <label class="checkrow">
+                <input type="checkbox" id="createAccount">
+                Loo konto?
+              </label>
+            </div>
+
+            <div class="field full" id="passwordRow" style="display:none;">
+              <label>Looge oma kontole parool: <span class="req">*</span></label>
+              <input class="input" id="billPassword" type="password" autocomplete="new-password" placeholder="Vähemalt 8 tähemärki">
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-block-key="checkout-notes">
+          <h2><i class="fa-solid fa-pen-to-square" style="color:#c60b13"></i> <span data-field="title">Lisainfo</span></h2>
+          <div data-field="content_html" data-attr="html"></div>
+
+          <div class="grid-form">
+            <div class="field full">
+              <label>Märkused tellimuse kohta (valikuline):</label>
+              <textarea class="input" id="billNotes" rows="4" placeholder="Märkused teie tellimuse kohta, näiteks kättetoimetamisjuhised"></textarea>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="order-box">
+        <div class="card">
+
+          <div class="section" data-block-key="checkout-order-summary">
+            <div class="section-head">
+              <h2><i class="fa-solid fa-basket-shopping" style="color:#c60b13"></i> <span data-field="title">Sinu tellimus</span></h2>
+
+              <a class="back-pill" href="cart.html" data-href-field="button_primary_url">
+                <i class="fa-solid fa-arrow-left"></i> <span data-field="button_primary_label">Tagasi</span>
+              </a>
+            </div>
+
+            <table class="table" aria-label="Order summary">
+              <thead>
+                <tr>
+                  <th>Toode</th>
+                  <th style="text-align:right;">Kokku:</th>
+                </tr>
+              </thead>
+              <tbody id="orderRows"></tbody>
+            </table>
+
+            <div class="sumrow">
+              <div>
+                Kokku:
+                <small id="vatHint">(käibemaksuga)</small>
+              </div>
+              <div id="orderTotal">0,00 €</div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="hint" style="margin:0;">
+              <strong>Kohaletoimetamine:</strong>
+              <span id="shippingText">Tulen sellele määratud aadressil järele (Trummi 16B, Tallinn 12617, Estonia)</span>
+            </div>
+            <div data-field="content_html" data-attr="html"></div>
+          </div>
+
+          <div class="section" data-block-key="checkout-payment">
+            <h2><i class="fa-solid fa-credit-card" style="color:#c60b13"></i> <span data-field="title">Makse</span></h2>
+            <div data-field="content_html" data-attr="html"><p class="hint">Vali pank või makseviis. Pärast nupu vajutamist suunatakse sind makselehele.</p></div>
+
+            <div class="pay-grid" role="listbox" aria-label="Payment methods">
+              <button class="pay-btn" type="button" data-pay="swedbank" aria-label="Swedbank" aria-pressed="false">
+                <img alt="Swedbank" src="images/swedbank.webp">
+              </button>
+              <button class="pay-btn" type="button" data-pay="seb" aria-label="SEB" aria-pressed="false">
+                <img alt="SEB" src="images/seb.webp">
+              </button>
+              <button class="pay-btn" type="button" data-pay="lhv" aria-label="LHV" aria-pressed="false">
+                <img alt="LHV" src="images/lhv.webp">
+              </button>
+              <button class="pay-btn" type="button" data-pay="luminor" aria-label="Luminor" aria-pressed="false">
+                <img alt="Luminor" src="images/luminor.webp">
+              </button>
+              <button class="pay-btn" type="button" data-pay="coop" aria-label="Coop Pank" aria-pressed="false">
+                <img alt="Coop Pank" src="images/coop.webp">
+              </button>
+              <button class="pay-btn" type="button" data-pay="revolut" aria-label="Revolut" aria-pressed="false">
+                <img alt="Revolut" src="images/revolut.webp">
+              </button>
+              <button class="pay-btn" type="button" data-pay="paysera" aria-label="Paysera" aria-pressed="false">
+                <img alt="Paysera" src="images/paysera.webp">
+              </button>
+              <button class="pay-btn" type="button" data-pay="wise" aria-label="Wise" aria-pressed="false">
+                <img alt="Wise" src="images/wise.webp">
+              </button>
+              <button class="pay-btn" type="button" data-pay="n26" aria-label="N26" aria-pressed="false">
+                <img alt="N26" src="images/n26.webp">
+              </button>
+              <button class="pay-btn" type="button" data-pay="kniks" aria-label="Kniks" aria-pressed="false">
+                <img alt="Kniks" src="images/kniks.webp">
+              </button>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="danger" id="formError" style="display:none;">
+              Palun täitke kõik kohustuslikud väljad ja nõustuge müügitingimustega.
+            </div>
+
+            <label class="checkrow" style="margin-top:10px;">
+              <input type="checkbox" id="terms">
+              Olen tutvunud veebilehel olevate müügitingimustega ja nõustun nendega.
+            </label>
+
+            <div class="mini-actions" style="margin-top:12px;">
+              <button class="btn btn-primary" id="placeOrder" type="button" disabled>
+                <i class="fa-solid fa-bag-shopping"></i> Mine maksma
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap" style="padding-top:0;">
+      <div class="footer-inner">
+        <div>© 2026 EUROPAGAR</div>
+
+        <div style="display:flex; align-items:center; gap:12px;">
+          <a class="icon-btn-1"
+             href="https://www.facebook.com/people/Europagar/100063358998388/?ref=embed_page"
+             target="_blank"
+             rel="noopener"
+             aria-label="Facebook">
+            <i class="fa-brands fa-facebook-f"></i>
+          </a>
+          <a class="post" href="mailto:info@europagar.ee">info@europagar.ee</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+<script src="scripts/cookie.js" defer></script>
+  <script src="scripts/cart.js" defer></script>
+  <script src="scripts/account.js" defer></script>
+
+  <script src="scripts/site-ui.js" defer></script>
+  <script src="scripts/page-content.js" defer></script>
+  <script src="scripts/checkout.js" defer></script>
+</body>
+</html>

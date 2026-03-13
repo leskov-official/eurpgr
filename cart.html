@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EUROPAGAR — Ostukorv</title>
+
+  <link rel="icon" type="image/png" sizes="32x32" href="images/dark-favicon.png?v=2">
+  <link rel="canonical" href="https://eurpgr.ee/cart.html">
+  <link rel="sitemap" type="application/xml" href="sitemap.xml">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="styles/korvikesed.css">
+  <link rel="stylesheet" href="styles/cart.css">
+
+  <style>
+    .cart-btn{
+      width:40px;
+      height:40px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:999px;
+      border:3px solid #122E4E;
+      background:#122E4E;
+      color:#fff;
+      position:relative;
+      transition:.2s ease;
+    }
+
+    .cart-btn:hover{
+      transform:translateY(-1px);
+    }
+
+    .cart-badge{
+      position:absolute;
+      top:-6px;
+      right:-6px;
+      min-width:20px;
+      height:20px;
+      padding:0 6px;
+      border-radius:999px;
+      background:var(--accent);
+      color:#fff;
+      font-weight:1000;
+      font-size:12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border:2px solid #fff;
+    }
+  </style>
+</head>
+
+<body data-page-key="cart">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="index.html" aria-label="EUROPAGAR">
+        <img src="images/logo.png" alt="EUROPAGAR logo" />
+        <div>
+          <div class="brand-name">EUROPAGAR</div>
+          <div class="brand-sub">Elul on maitset</div>
+        </div>
+      </a>
+
+      <nav class="nav" aria-label="Navigeerimine">
+        <a href="index.html"><i class="fa fa-home"></i>Avaleht</a>
+        <a href="index.html#company"><i class="fa fa-info-circle"></i>Ettevõttest</a>
+        <a href="index.html#shop"><i class="fa fa-shopping-cart"></i>E-Pood</a>
+        <a href="index.html#transport"><i class="fa fa-truck"></i>Transport</a>
+        <a href="index.html#order"><i class="fa fa-clipboard"></i>Tellimus</a>
+        <a href="index.html#contact"><i class="fa fa-envelope"></i>Kontakt</a>
+      </nav>
+
+      <div class="top-actions">
+        <a class="icon-btn"
+           href="https://www.facebook.com/people/Europagar/100063358998388/?ref=embed_page"
+           target="_blank"
+           rel="noopener noreferrer"
+           aria-label="Facebook">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+
+        <a class="icon-btn profile-btn" id="profileBtn" href="account.html" aria-label="Konto">
+          <i class="fa-solid fa-user"></i>
+        </a>
+
+        <a class="cart-btn" href="cart.html" aria-label="Ostukorv" aria-current="page">
+          <i class="fa fa-shopping-cart"></i>
+          <span id="cartBadge" class="cart-badge">0</span>
+        </a>
+
+        <a class="lang lang-et" href="cart.html" aria-label="Eesti"></a>
+      </div>
+    </div>
+  </header>
+
+  <main class="cart-wrap">
+    <div class="cart-card" data-block-key="cart-main">
+      <div class="cart-head">
+        <h1 class="cart-title"><i class="fa fa-shopping-cart"></i> <span data-field="title">Ostukorv</span></h1>
+
+        <div class="cart-actions">
+          <button class="cart-btn2 ghost" id="btnBack" type="button" data-block-key="cart-actions"><i class="fa fa-arrow-left"></i> <span data-field="button_primary_label">Tagasi</span>
+          </button>
+
+          <button class="cart-btn2 ghost" id="btnClear" type="button">
+            <i class="fa fa-minus"></i> Eemalda kõik
+          </button>
+
+          <a class="cart-btn2 primary" href="checkout.html" data-block-key="cart-actions" data-href-field="button_secondary_url"><i class="fa fa-bag-shopping"></i> <span data-field="button_secondary_label">Mine maksma</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="cart-page-copy p" data-field="content_html" data-attr="html"><p class="p">Vaata üle lisatud tooted ja jätka tellimusega siis, kui kõik on õige.</p></div>
+
+      <div class="cart-list" id="cartList"></div>
+
+      <div class="cart-foot">
+        <div class="cart-total" id="cartTotal">Kokku: 0 €</div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>© 2026 <strong>EUROPAGAR</strong></div>
+      <div class="footer-right">
+        <a class="icon-btn-1"
+           href="https://www.facebook.com/people/Europagar/100063358998388/?ref=embed_page"
+           target="_blank"
+           rel="noopener noreferrer"
+           aria-label="Facebook">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a class="post" href="mailto:info@europagar.ee">info@europagar.ee</a>
+      </div>
+    </div>
+  </footer>
+<script src="scripts/cart.js" defer></script>
+  <script src="scripts/account.js" defer></script>
+
+  <script src="scripts/site-ui.js" defer></script>
+  <script src="scripts/page-content.js" defer></script>
+  <script src="scripts/cart-page.js" defer></script>
+</body>
+</html>

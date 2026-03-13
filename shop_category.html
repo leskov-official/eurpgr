@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EUROPAGAR - E-Pood</title>
+
+  <link rel="icon" type="image/png" sizes="32x32" href="images/dark-favicon.png?v=2">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="canonical" href="https://eurpgr.ee/shop_category.html">
+  <link rel="sitemap" type="application/xml" href="sitemap.xml">
+
+  <link rel="stylesheet" href="styles/korvikesed.css">
+  <link rel="stylesheet" href="styles/cookie.css">
+
+  <style>
+    .cart-btn{
+      width:40px;
+      height:40px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:999px;
+      border:3px solid #122E4E;
+      background:#122E4E;
+      color:#fff;
+      position:relative;
+      transition:.2s ease;
+    }
+
+    .cart-btn:hover{
+      transform:translateY(-1px);
+    }
+
+    .cart-badge{
+      position:absolute;
+      top:-6px;
+      right:-6px;
+      min-width:20px;
+      height:20px;
+      padding:0 6px;
+      border-radius:999px;
+      background:var(--accent);
+      color:#fff;
+      font-weight:1000;
+      font-size:12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border:2px solid #fff;
+    }
+
+    .post{
+      color:#fff;
+      text-decoration:none;
+    }
+
+    .post:hover{
+      text-decoration:underline;
+    }
+
+    .modal__backdrop{
+      position:absolute;
+      inset:0;
+      background:rgba(0,0,0,0.55);
+    }
+
+    .cart-modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      z-index:2100;
+    }
+
+    .cart-modal.is-open{
+      display:block;
+    }
+
+    .cart-modal__overlay{
+      position:absolute;
+      inset:0;
+      background:rgba(0,0,0,0.55);
+    }
+
+    .cart-modal__dialog{
+      position:relative;
+      max-width:720px;
+      margin:24px auto;
+      padding:0 14px;
+      max-height:calc(100vh - 48px);
+    }
+
+    .cart-modal__content{
+      position:relative;
+      background:#fff;
+      border-radius:18px;
+      border:1px solid var(--line);
+      box-shadow:0 18px 60px rgba(0,0,0,0.35);
+      overflow:auto;
+      padding:22px;
+      max-height:calc(100vh - 48px);
+    }
+
+    .cart-modal__close{
+      position:absolute;
+      right:12px;
+      top:12px;
+      width:40px;
+      height:40px;
+      border-radius:999px;
+      border:0;
+      background:#c60b13;
+      color:#fff;
+      cursor:pointer;
+      z-index:5;
+      transition:.2s ease;
+    }
+
+    .cart-modal__close:hover{
+      transform:translateY(-1px);
+      background:#ecaf16;
+      box-shadow:0 10px 22px rgba(0,0,0,0.18);
+    }
+
+    .cart-total{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin:18px 0;
+      padding-top:12px;
+      border-top:1px solid rgba(18,45,78,0.10);
+      font-weight:900;
+      color:#122E4E;
+    }
+
+    #cartItems{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      margin-top:14px;
+    }
+
+    .modal__title{
+      margin:0;
+      color:#122E4E;
+      font-size:18px;
+      line-height:1.25;
+      font-weight:1000;
+    }
+
+    .modal__price{
+      font-weight:1000;
+      color:#122E4E;
+      font-size:15px;
+      margin-top:2px;
+    }
+
+    .modal__meta{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    .modal__note{
+      min-height:18px;
+      color:#122E4E;
+      font-weight:800;
+      font-size:13px;
+    }
+
+    .main-spacer{
+      height:10px;
+    }
+
+    #productGrid{
+      min-height:40px;
+    }
+  </style>
+</head>
+<body data-page-key="shop_category" data-category-slug="">
+
+  <div id="cookie-consent-bar" aria-hidden="true">
+    <div class="cookie-text">
+      See veebisait kasutab küpsiseid parema kasutuskogemuse pakkumiseks.
+    </div>
+
+    <div class="cookie-actions">
+      <a href="privacy.html" class="cookie-btn cookie-btn-decline">Lisainfo</a>
+      <button class="cookie-btn cookie-btn-accept">Nõustun</button>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="index.html" aria-label="EUROPAGAR">
+        <img src="images/logo.png" alt="EUROPAGAR logo" />
+        <div>
+          <div class="brand-name">EUROPAGAR</div>
+          <div class="brand-sub">Elul on maitset</div>
+        </div>
+      </a>
+
+      <nav class="nav" aria-label="Navigeerimine">
+        <a href="index.html"><i class="fa fa-home"></i>Avaleht</a>
+        <a href="index.html#company"><i class="fa fa-info-circle"></i>Ettevõttest</a>
+        <a href="index.html#shop" aria-current="page"><i class="fa fa-shopping-cart"></i>E-Pood</a>
+        <a href="index.html#transport"><i class="fa fa-truck"></i>Transport</a>
+        <a href="index.html#order"><i class="fa fa-clipboard"></i>Tellimus</a>
+        <a href="index.html#contact"><i class="fa fa-envelope"></i>Kontakt</a>
+      </nav>
+
+      <div class="top-actions">
+        <a class="icon-btn"
+           href="https://www.facebook.com/people/Europagar/100063358998388/?ref=embed_page"
+           target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+
+        <a class="icon-btn profile-btn" id="profileBtn" href="account.html" aria-label="Konto">
+          <i class="fa-solid fa-user"></i>
+        </a>
+
+        <a class="cart-btn" href="cart.html" aria-label="Ostukorv">
+          <i class="fa fa-shopping-cart"></i>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </a>
+
+        <a class="lang lang-et" href="shop_category.html" aria-label="Eesti"></a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="card" data-block-key="shop-category-main">
+      <div class="card-content">
+        <div class="eyebrow">
+          <i class="fa fa-shopping-cart"></i>
+          <span data-field="eyebrow">E-Pood</span>
+        </div>
+
+        <h1 class="h" id="categoryTitle" data-field="title">E-Pood</h1>
+        <p class="p" id="categorySub" data-field="content_html" data-attr="html"></p>
+
+        <div class="back-wrap">
+          <a class="back-btn" href="index.html#shop" aria-label="Tagasi" data-href-field="button_primary_url" data-aria-field="button_primary_label">
+            <i class="fa fa-arrow-left"></i>
+            <span class="sr-only" data-field="button_primary_label">Tagasi</span>
+          </a>
+        </div>
+
+        <div class="grid" id="productGrid" aria-label="Tooted"></div>
+      </div>
+    </section>
+    <div class="main-spacer"></div>
+  </main>
+
+  <div class="modal" id="productModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal__backdrop" data-modal-close></div>
+
+    <div class="modal__dialog" role="document">
+      <button class="modal__close" type="button" data-modal-close aria-label="Sulge">×</button>
+
+      <div class="modal__content">
+        <div class="modal__media">
+          <img id="modalImage" src="" alt="" />
+        </div>
+
+        <div class="modal__body">
+          <h2 id="modalTitle" class="modal__title"></h2>
+
+          <div class="modal__meta" id="modalMeta"></div>
+
+          <div id="modalVariantWrap" style="display:none; margin:12px 0;">
+            <label for="modalVariantSelect" class="modal__label">Vali variant</label>
+            <select id="modalVariantSelect" class="qty__input"></select>
+          </div>
+
+          <div class="modal__row">
+            <div class="modal__label">Kogus</div>
+
+            <div class="qty">
+              <button type="button" id="qtyMinus" class="qty__btn" aria-label="Vähenda">−</button>
+              <input id="qtyInput" class="qty__input" type="number" min="1" value="1" />
+              <button type="button" id="qtyPlus" class="qty__btn" aria-label="Suurenda">+</button>
+            </div>
+          </div>
+
+          <div id="modalPrice" class="modal__price"></div>
+
+          <div class="modal__actions">
+            <button id="addToCartBtn" class="btn btn-primary" type="button">Lisa ostukorvi</button>
+          </div>
+
+          <div id="modalNote" class="modal__note"></div>
+          <div id="modalIngredients"></div>
+          <div id="modalNutrition"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cart-modal" id="cartModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="cart-modal__overlay" data-cart-close></div>
+
+    <div class="cart-modal__dialog" role="document">
+      <div class="cart-modal__content">
+        <button class="cart-modal__close" type="button" data-cart-close aria-label="Sulge">×</button>
+
+        <h2 style="margin:0;color:#122E4E;">Ostukorv</h2>
+        <div id="cartItems"></div>
+
+        <div class="cart-total">
+          <span>Kokku:</span>
+          <strong id="cartTotal">0 €</strong>
+        </div>
+
+        <a class="btn btn-primary" href="checkout.html">Vormista tellimus</a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>© 2026 <strong>EUROPAGAR</strong></div>
+      <div class="footer-right">
+        <a class="icon-btn-1"
+           href="https://www.facebook.com/people/Europagar/100063358998388/?ref=embed_page"
+           target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a class="post" href="mailto:info@europagar.ee">info@europagar.ee</a>
+      </div>
+    </div>
+  </footer>
+
+<script src="scripts/cart.js" defer></script>
+  <script src="scripts/cookie.js" defer></script>
+
+  <script src="scripts/site-ui.js" defer></script>
+  <script src="scripts/page-content.js" defer></script>
+  <script src="scripts/shop-category-page.js" defer></script>
+</body>
+</html>
